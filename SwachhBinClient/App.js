@@ -6,6 +6,8 @@ import LoadingScreen from "./screens/LoadingScreen";
 import MyAccount from "./screens/MyAccount";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import AnimatedViews from "./screens/AnimatedViews";
+import HistoryScreen from "./screens/HistoryScreen";
 
 var firebaseConfig = {
   apiKey: "AIzaSyBG510i9aGXHr7s3B_4JRIlqFj_CCYRc_8",
@@ -25,13 +27,16 @@ const MainNavigator = createStackNavigator(
     Loading: { screen: LoadingScreen },
     Account: { screen: MyAccount },
     Login: { screen: LoginScreen },
-    Signup: { screen: SignupScreen }
+    Signup: { screen: SignupScreen },
+    MapView: { screen: AnimatedViews },
+    History: { screen: HistoryScreen }
   },
   {
     defaultNavigationOptions: {
-      headerTintColor: "#000",
+      headerTintColor: "#fff",
       headerStyle: {
-        backgroundColor: "#ECF1FF"
+        backgroundColor: "#1e1e1e"
+        // backgroundColor: "#ECF1FF"
       }
     },
     initialRouteName: "Loading"

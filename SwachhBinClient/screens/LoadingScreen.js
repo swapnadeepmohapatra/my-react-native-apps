@@ -5,9 +5,9 @@ import * as firebase from "firebase";
 export default class LoadingScreen extends React.Component {
   componentDidMount() {
     if (firebase.auth().currentUser === null) {
-      this.props.navigation.navigate("Login");
+      this.props.navigation.replace("Home");
     } else {
-      this.props.navigation.navigate("Home");
+      this.props.navigation.replace("Home");
     }
   }
   render() {

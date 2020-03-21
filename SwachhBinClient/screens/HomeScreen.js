@@ -4,14 +4,76 @@ import {
   Text,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  FlatList,
+  TouchableNativeFeedback
 } from "react-native";
 import { Button, Icon } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 import * as firebase from "firebase";
+import CardHistoryList from "../components/CardHistoryList";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default class HomeScreen extends React.Component {
-  componentDidMount() {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      // dateList: [],
+      // cardHistoryList: [],
+      totalPoints: 0
+    };
+    self = this;
+  }
+
+  componentDidMount() {
+    // let cardUserId = "";
+    // FBUid = firebase.auth().currentUser.uid;
+    FBUid = "aMgjD0GXsVPNNvCXnSW3m6uMnj03";
+    firebase
+      .database()
+      .ref(FBUid)
+      .on("value", data => {
+        // console.log(data);
+        cardUserId = data.child("id").val();
+        // alert(cardUserId);
+
+        firebase
+          .database()
+          .ref("rfid_cards")
+          .child(cardUserId)
+          .on("value", data => {
+            this.setState({
+              // dateList: [],
+              totalPoints: 0
+              // cardHistoryList: []
+            });
+
+            // console.log(data);
+            data.forEach(ds => {
+              // console.log(ds.numChildren());
+              // let cardHistoryList = {
+              //   cardDate: ds.key,
+              //   cardNumber: ds.numChildren()
+              // };
+              // console.log(cardHistoryList);
+              // self.updateList(cardHistoryList);
+              self.setState({
+                totalPoints: self.state.totalPoints + ds.numChildren()
+              });
+              // console.log(self.state.totalPoints);
+              // self.setState({ dateList: ds.key });
+            });
+          });
+      });
+  }
+
+  updateList = cardHistoryLists => {
+    this.setState({
+      cardHistoryList: self.state.cardHistoryList.concat(cardHistoryLists)
+    });
+    // console.log(this.state.cardHistoryList);
+  };
+
   static navigationOptions = {
     title: "e-SwachhBin"
   };
@@ -23,7 +85,7 @@ export default class HomeScreen extends React.Component {
           style={{
             height: 150,
             width: Dimensions.get("screen").width - 30,
-            backgroundColor: "#00adb5",
+            backgroundColor: "#09d3ac",
             borderRadius: 20,
             elevation: 10,
             marginTop: 10
@@ -48,7 +110,7 @@ export default class HomeScreen extends React.Component {
               color: "#EAF0F1"
             }}
           >
-            5124
+            {this.state.totalPoints}
           </Text>
           <View
             style={{
@@ -68,32 +130,41 @@ export default class HomeScreen extends React.Component {
               color: "#fff"
             }}
           >
-            ₹ 51.24
+            ₹ {this.state.totalPoints / 100}
           </Text>
         </View>
-
-        <Button
-          rounded
-          style={{
-            width: 150,
-            backgroundColor: "#22b9ca",
-            alignSelf: "center",
-            marginTop: 15,
-            elevation: 2
-          }}
-        >
-          <Text
+        <View style={{ flexDirection: "row" }}>
+          <Button
+            rounded
             style={{
-              color: "#fff",
-              fontWeight: "bold",
-              textAlign: "center",
               width: 150,
-              fontSize: 16
+              backgroundColor: "#22b9ca",
+              alignSelf: "center",
+              marginTop: 15,
+              elevation: 2
             }}
           >
-            Reedem
-          </Text>
-        </Button>
+            <Text
+              style={{
+                color: "#fff",
+                fontWeight: "bold",
+                textAlign: "center",
+                width: 150,
+                fontSize: 16
+              }}
+            >
+              Reedem
+            </Text>
+          </Button>
+          <TouchableOpacity
+            style={{ alignSelf: "flex-end", marginStart: 5 }}
+            onPress={() => {
+              this.props.navigation.navigate("History");
+            }}
+          >
+            <MaterialIcons name="history" size={28} color="#586776" />
+          </TouchableOpacity>
+        </View>
 
         <View style={{ position: "absolute", bottom: 0 }}>
           <Button

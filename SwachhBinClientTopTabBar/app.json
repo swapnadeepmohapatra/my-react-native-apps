@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "e-SwachhBin",
+    "slug": "SwachhBinClientTopTabBar",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": ["ios", "android", "web"],
+    "android": {
+      "package": "com.swapnadeep.swachhbin.admin.update"
+    },
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.swapnadeep.swachhbin.admin.upadate"
+    }
+  }
+}
